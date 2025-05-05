@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post('/render-zpl', async (req, res) => {
+app.post('/', async (req, res) => {
   try {
     const zpl = req.body.zpl;
     const response = await axios.post(
@@ -15,7 +15,7 @@ app.post('/render-zpl', async (req, res) => {
       zpl,
       {
         headers: {
-          'Content-Type': 'application/zpl',
+          'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/pdf' // ou image/png
         },
         responseType: 'arraybuffer'
