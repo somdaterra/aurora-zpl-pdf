@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Converter ZPL para PDF</title>
+</head>
+<body>
+  <h2>Digite seu ZPL</h2>
+  <textarea id="zpl" rows="10" cols="50"></textarea><br><br>
+  <input type="button" value="Visualizar Etiqueta" onclick="renderZPL()">
+  <br><br>
+  <iframe id="pdfViewer" width="500" height="400"></iframe>
+
+  <script>
+    function renderZPL() {
+        const zpl = document.querySelector("#zpl").value;
+    
+        fetch("http://127.0.0.1:3000/render-zpl/", { // <- precisa de proxy aqui!
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ zpl })
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            document.getElementById("pdfViewer").src = url;
+        })
+        .catch(err => alert("Erro ao renderizar etiqueta"));
+    }
+    </script>
+</body>
+</html>
