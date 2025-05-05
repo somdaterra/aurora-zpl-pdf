@@ -4,16 +4,20 @@ const cors = require('cors');
 
 const app = express();
 
-// Lista de origens permitidas
+// Função para verificar se a origem pertence ao domínio vercel.app
 const allowedOrigins = [
-	'https://aurora-zpl-pdf.vercel.app/'
+  /^https:\/\/aurora-zpl-pdf.*\.vercel\.app$/
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
     // Permite requests sem origin (como de ferramentas locais ou curl)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
+
+    // Verifica se a origem está na lista de origens permitidas
+    const isOriginAllowed = allowedOrigins.some(pattern => pattern.test(origin));
+
+    if (isOriginAllowed) {
       return callback(null, true);
     } else {
       return callback(new Error('Não permitido pelo CORS'));
