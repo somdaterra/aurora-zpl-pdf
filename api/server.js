@@ -1,13 +1,30 @@
-// server.js
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+
+// Lista de origens permitidas
+const allowedOrigins = [
+  	'http://127.0.0.1:3000',
+	'https://aurora-zpl-pdf.vercel.app/'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Permite requests sem origin (como de ferramentas locais ou curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Não permitido pelo CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 
-app.post('/', async (req, res) => {
+app.post('/render-zpl', async (req, res) => {
   try {
     const zpl = req.body.zpl;
     const response = await axios.post(
@@ -16,7 +33,7 @@ app.post('/', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/pdf' // ou image/png
+          'Accept': 'application/pdf'
         },
         responseType: 'arraybuffer'
       }
