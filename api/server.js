@@ -6,7 +6,6 @@ const app = express();
 
 // Lista de origens permitidas
 const allowedOrigins = [
-  	'http://127.0.0.1:3000',
 	'https://aurora-zpl-pdf.vercel.app/'
 ];
 
