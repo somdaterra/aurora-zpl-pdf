@@ -1,23 +1,14 @@
+// api/render-zpl.js
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-const path = require('path');
-const serverless = require('serverless-http');
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
-// Servir arquivos estáticos da pasta "public"
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Rota para carregar o index.html ao acessar "/"
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-app.post('/render-zpl', async (req, res) => {
+app.post('/', async (req, res) => {
   try {
     const zpl = req.body.zpl;
     const response = await axios.post(
@@ -26,19 +17,17 @@ app.post('/render-zpl', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/pdf'
+          'Accept': 'application/pdf',
         },
-        responseType: 'arraybuffer'
+        responseType: 'arraybuffer',
       }
     );
     res.set('Content-Type', 'application/pdf');
     res.send(response.data);
   } catch (error) {
-    console.error("Erro:", error);
+    console.error('Erro:', error);
     res.status(500).send('Erro ao converter ZPL');
   }
 });
 
-// Exportar como serverless
 module.exports = app;
-module.exports.handler = serverless(app);

@@ -1,5 +1,5 @@
 // local.js
-const app = require('./api/index');
+const app = require('./api/render-zpl');
 
 const PORT = process.env.PORT || 3000;
 
