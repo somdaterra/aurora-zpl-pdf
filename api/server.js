@@ -4,28 +4,8 @@ const cors = require('cors');
 
 const app = express();
 
-const allowedOrigins = [
-  /^https:\/\/aurora-zpl-pdf(?:-[\w-]+)?\.vercel\.app$/,
-  /^http:\/\/127\.0\.0\.1:5500$/,
-];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    const isAllowed = allowedOrigins.some(pattern => pattern.test(origin));
-    if (isAllowed) {
-      callback(null, true);
-    } else {
-      callback(new Error('Não permitido pelo CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // <-- importante para preflight
-
+// Libera todas as origens
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
