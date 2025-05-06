@@ -9,10 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send(`
-    <h1>API ZPL to PDF</h1>
-    <p>Use o endpoint <code>POST /render-zpl</code> com um corpo contendo <code>{ zpl: "..." }</code> para converter ZPL em PDF.</p>
-  `);
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/render-zpl', async (req, res) => {
