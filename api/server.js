@@ -38,6 +38,7 @@ app.get('/', (req, res) => {
 app.post('/render-zpl', async (req, res) => {
   try {
     const zpl = req.body.zpl;
+    console.log("zpl: ", zpl)
     const response = await axios.post(
       'https://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/',
       zpl,
