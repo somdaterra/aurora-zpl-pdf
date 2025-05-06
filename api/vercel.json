@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "server.js",
+            "src": "index.js",
             "use": "@vercel/node"
         }
     ],
@@ -12,14 +12,14 @@
             "methods": [
                 "POST"
             ],
-            "dest": "server.js"
+            "dest": "index.js"
         },
         {
             "src": "/",
             "methods": [
                 "GET"
             ],
-            "dest": "server.js"
+            "dest": "index.js"
         }
     ]
 }
