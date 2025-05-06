@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/render-zpl.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/render-zpl",
+            "dest": "/api/render-zpl.js"
+        },
+        {
+            "src": "/",
+            "dest": "/public/index.html"
+        }
+    ]
+}
