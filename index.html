@@ -14,7 +14,7 @@
     function renderZPL() {
         const zpl = document.querySelector("#zpl").value;
     
-        fetch("https://aurora-zpl-pdf-cugn.vercel.app/render-zpl/", { 
+        fetch("https://aurora-zpl-pdf-cugn.vercel.app/render-zpl", { 
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

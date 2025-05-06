@@ -6,7 +6,8 @@ const app = express();
 
 // Função para verificar se a origem pertence ao domínio vercel.app
 const allowedOrigins = [
-  /^https:\/\/aurora-zpl-pdf.*\.vercel\.app$/
+  /^https:\/\/aurora-zpl-pdf(?:-[\w-]+)?\.vercel\.app$/,
+  /^http:\/\/127\.0\.0\.1:5500$/,
 ];
 
 app.use(cors({
@@ -27,6 +28,14 @@ app.use(cors({
 
 app.use(express.json());
 
+// GET na raiz para exibir algo na tela
+app.get('/', (req, res) => {
+  res.send(`
+    <h1>API ZPL to PDF</h1>
+    <p>Use o endpoint <code>POST /render-zpl</code> com um corpo contendo <code>{ zpl: "..." }</code> para converter ZPL em PDF.</p>
+  `);
+});
+
 app.post('/render-zpl', async (req, res) => {
   try {
     const zpl = req.body.zpl;
@@ -44,6 +53,7 @@ app.post('/render-zpl', async (req, res) => {
     res.set('Content-Type', 'application/pdf');
     res.send(response.data);
   } catch (error) {
+    console.log("error: ", error)
     res.status(500).send('Erro ao converter ZPL');
   }
 });
