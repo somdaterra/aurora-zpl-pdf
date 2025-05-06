@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/",
+            "destination": "/public/index.html"
+        },
+        {
+            "source": "/render-zpl",
+            "destination": "/api/index.js"
+        }
+    ]
+}

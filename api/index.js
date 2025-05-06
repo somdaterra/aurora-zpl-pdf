@@ -1,30 +1,34 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const path = require('path');
+const serverless = require('serverless-http');
 
 const app = express();
 
-// Libera todas as origens
 app.use(cors());
 app.use(express.json());
 
+// Servir arquivos estáticos da pasta "public"
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Rota para carregar o index.html ao acessar "/"
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.post('/render-zpl', async (req, res) => {
   try {
     const zpl = req.body.zpl;
-    console.log("zpl: ", zpl);
     const response = await axios.post(
       'https://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/',
       zpl,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/pdf',
+          'Accept': 'application/pdf'
         },
-        responseType: 'arraybuffer',
+        responseType: 'arraybuffer'
       }
     );
     res.set('Content-Type', 'application/pdf');
@@ -35,4 +39,6 @@ app.post('/render-zpl', async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log('Proxy rodando na porta 3000'));
+// Exportar como serverless
+module.exports = app;
+module.exports.handler = serverless(app);
