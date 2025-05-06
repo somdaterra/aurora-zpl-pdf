@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Converter ZPL para PDF</title>
+</head>
+<body>
+  <h2>Digite seu ZPL</h2>
+  <textarea id="zpl" rows="10" cols="51"></textarea><br><br>
+  <input type="button" value="Visualizar Etiqueta" onclick="renderZPL()">
+  <br><br>
+  <iframe id="pdfViewer" width="500" height="400"></iframe>
+
+  <script>
+    async function renderZPL() {
+      const zpl = document.querySelector("#zpl").value;
+  
+      try {
+        const response = await fetch(
+          'https://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Accept': 'application/pdf',
+            },
+            body: zpl,
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error(`Labelary API error: ${response.statusText}`);
+        }
+  
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        document.querySelector("#pdfViewer").src = url;
+  
+      } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao converter ZPL');
+      }
+    }
+  </script>
+  
+</body>
+</html>
