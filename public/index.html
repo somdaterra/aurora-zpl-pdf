@@ -12,25 +12,26 @@
 
   <script>
     function renderZPL() {
-        const zpl = document.querySelector("#zpl").value;
-    
-        fetch("https://aurora-zpl-pdf.vercel.app/api/render-zpl", { 
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ zpl })
-        })
-        .then(response => response.blob())
-        .then(blob => {
-            const url = URL.createObjectURL(blob);
-            document.getElementById("pdfViewer").src = url;
-        })
-        .catch(err => {
-            console.log(err)
-            alert("Erro ao renderizar etiqueta")
-        });
+      const zpl = document.querySelector("#zpl").value;
+  
+      // Alterar para a URL completa da API (incluindo o /api)
+      fetch("/api/render-zpl", { 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ zpl })
+      })
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        document.getElementById("pdfViewer").src = url;
+      })
+      .catch(err => {
+        console.log(err)
+        alert("Erro ao renderizar etiqueta");
+      });
     }
-    </script>
+  </script>
 </body>
 </html>

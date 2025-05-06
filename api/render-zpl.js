@@ -1,14 +1,20 @@
 // api/render-zpl.js
-
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
-app.post('/', async (req, res) => {
+// Serve o arquivo HTML quando a raiz é acessada
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+app.post('/render-zpl', async (req, res) => {
   try {
     const zpl = req.body.zpl;
     const response = await axios.post(
