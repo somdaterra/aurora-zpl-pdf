@@ -28,7 +28,6 @@ app.use(cors({
 
 app.use(express.json());
 
-// GET na raiz para exibir algo na tela
 app.get('/', (req, res) => {
   res.send(`
     <h1>API ZPL to PDF</h1>
